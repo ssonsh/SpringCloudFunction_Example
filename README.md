@@ -371,3 +371,19 @@ maven package issue
 
 - **AWS EventBridge**
     - AWS CloudWatch + Event
+**Amazon EventBridge 접근 → 이벤트 → 규칙**
+
+![image](https://user-images.githubusercontent.com/18654358/157833570-7d581583-3e0c-43cf-add2-2b8ff136fbe9.png)
+![image](https://user-images.githubusercontent.com/18654358/157833610-a25d9d98-704d-48e3-b6c7-92c4dc2c48ed.png)
+    
+<aside>
+🎈 매일 00시00분에 수행되게 하고싶다 🙂
+- [https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-create-rule-schedule.html#eb-cron-expressions](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-create-rule-schedule.html#eb-cron-expressions)
+
+</aside>
+
+![image](https://user-images.githubusercontent.com/18654358/157833648-0f432bb6-26f8-43e6-9c63-8aa12ee36eea.png)
+
+- Target은 AWS 서비스의 Lambda 함수이며
+    - 구성해놓은 hrp-auth-functions-dormant-account 라는 명을 가진 AWS Lambda 함수이다.
+   
