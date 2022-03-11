@@ -387,3 +387,36 @@ maven package issue
 - Target은 AWS 서비스의 Lambda 함수이며
     - 구성해놓은 hrp-auth-functions-dormant-account 라는 명을 가진 AWS Lambda 함수이다.
    
+
+    
+    ### Bibutcket을 이용해 AWS S3의 Bucket으로 배포형상을 Deploy 해보자. 🙂
+
+bitbucket-pipeline.yml
+
+```yaml
+image: gradle:6.6.0
+
+pipelines:
+  branches:
+    release/adv:
+      - step:
+          name: Build and Test
+          caches:
+            - gradle
+          script:
+            - chmod +x ./gradlew
+            - ./gradlew buildZip
+          artifacts:
+            - build/distributions/*.zip
+      - step:
+          name: Deploy to AWS S3
+          script:
+            - pipe: atlassian/aws-s3-deploy:0.3.7
+              variables:
+                AWS_ACCESS_KEY_ID: # AWS ACCESS KEY
+                AWS_SECRET_ACCESS_KEY: # AWS SECRET KEY
+                AWS_DEFAULT_REGION: 'ap-northeast-2'
+                S3_BUCKET: 'hrp-auth-functions-bucket'
+                LOCAL_PATH: 'build/distributions'
+                EXTRA_ARGS: '--delete'
+```
