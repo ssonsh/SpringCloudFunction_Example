@@ -1,0 +1,25 @@
+image: gradle:6.6.0
+
+pipelines:
+  branches:
+    main:
+      - step:
+          name: Build and Test
+          caches:
+            - gradle
+          script:
+            - chmod +x ./gradlew
+            - ./gradlew buildZip
+          artifacts:
+            - build/distributions/*.zip
+      - step:
+          name: Deploy to AWS S3
+          script:
+            - pipe: atlassian/aws-s3-deploy:0.3.7
+              variables:
+                AWS_ACCESS_KEY_ID: # AWS ACCESS KEY
+                AWS_SECRET_ACCESS_KEY: # AWS SECRET KEY
+                AWS_DEFAULT_REGION: # AWS REGION
+                S3_BUCKET: # AWS S3 Bucket Name
+                LOCAL_PATH: 'build/distributions'
+                EXTRA_ARGS: '--delete'
